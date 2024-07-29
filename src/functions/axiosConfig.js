@@ -1,9 +1,10 @@
-
 import axios from 'axios';
 
 const instance = axios.create({
-  baseURL: process.env.REACT_APP_frontend_API_BASE_URL || 'http://localhost:8000/api/',
-  // other axios options if needed
+  baseURL: import.meta.env.VITE_FRONTEND_API_BASE_URL || 'http://localhost:8000/api/',
+  headers: {
+    'Content-Type': 'application/json',
+  },
 });
 
 export default instance;
