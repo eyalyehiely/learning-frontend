@@ -8,7 +8,7 @@ import LobbyPage from './components/LobbyPage';
 function App() {
   return (
     <Routes>
-      <Route path="/" element={<LobbyPage />} />
+      <Route path="/lobbyPage" element={<LobbyPage />} />
       <Route path="/codeblock/:id" element={<CodeBlockPage />} />
     </Routes>
   );
