@@ -1,7 +1,7 @@
-import axios from '../axiosConfig'; 
+import axios from '../axiosConfig';
 
 export default function fetchCurrentCodeBlock(id, setCodeBlock, setCode) {
-    axios.get(`/codeblocks/${id}/`)
+    axios.get(`/codeblock/${id}/`)
         .then(response => {
             if (response.status === 200) {
                 setCodeBlock(response.data);
@@ -13,4 +13,4 @@ export default function fetchCurrentCodeBlock(id, setCodeBlock, setCode) {
         .catch(error => {
             console.error('Error fetching code block:', error);
         });
-};
+}
