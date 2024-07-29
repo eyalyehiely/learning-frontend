@@ -1,7 +1,7 @@
 import axios from '../axiosConfig';
 
 export default function getCodeBlocks(setCodeBlocks) {
-    axios.get('/codeblocks/')
+    axios.get('/lobbyPage/')
         .then(response => {
             if (response.status === 200) {
                 setCodeBlocks(response.data.codeBlocks);
