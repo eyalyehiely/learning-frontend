@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { Container, Typography, Paper, TextField } from '@mui/material';
 import { useParams } from 'react-router-dom';
 import createSocket from '../functions/socketConfig'; 
@@ -12,6 +12,7 @@ const CodeBlockPage = () => {
     const [code, setCode] = useState('');
     const [role, setRole] = useState('');
     const [socket, setSocket] = useState(null);
+    const codeRef = useRef(null);
 
     useEffect(() => {
         fetchCurrentCodeBlock(id, setCodeBlock, setCode);
@@ -21,13 +22,14 @@ const CodeBlockPage = () => {
         const newSocket = createSocket(`/codeblock/${id}/`);
         setSocket(newSocket);
 
-        newSocket.on('code_update', (data) => {
-            setCode(data.code);
-        });
-
-        newSocket.on('role', (data) => {
-            setRole(data.role);
-        });
+        newSocket.onmessage = (event) => {
+            const data = JSON.parse(event.data);
+            if (data.type === 'code_update') {
+                setCode(data.code);
+            } else if (data.type === 'role') {
+                setRole(data.role);
+            }
+        };
 
         return () => {
             newSocket.close();
@@ -35,39 +37,41 @@ const CodeBlockPage = () => {
     }, [id]);
 
     useEffect(() => {
-        hljs.highlightAll();
+        if (codeRef.current) {
+            hljs.highlightElement(codeRef.current);
+        }
     }, [code]);
 
     const handleCodeChange = (e) => {
         setCode(e.target.value);
-        if (socket) {
-            socket.emit('codeChange', { code: e.target.value });
+        if (socket && socket.readyState === WebSocket.OPEN) {
+            socket.send(JSON.stringify({ type: 'codeChange', code: e.target.value }));
         }
     };
 
     return (
-        <Container>
+        <Container style={{ height: '100vh', display: 'flex', flexDirection: 'column' }}>
             <Typography variant="h4" gutterBottom>
                 {codeBlock.title}
             </Typography>
-            {role === 'mentor' ? (
-                <Paper>
+            <Paper style={{ flexGrow: 1, marginTop: '16px', padding: '16px', overflow: 'auto' }}>
+                {role === 'mentor' ? (
                     <pre>
-                        <code className="language-javascript">
+                        <code ref={codeRef} className="language-javascript">
                             {code}
                         </code>
                     </pre>
-                </Paper>
-            ) : (
-                <TextField
-                    value={code}
-                    onChange={handleCodeChange}
-                    multiline
-                    fullWidth
-                    variant="outlined"
-                    label="Edit Code"
-                />
-            )}
+                ) : (
+                    <TextField
+                        value={code}
+                        onChange={handleCodeChange}
+                        multiline
+                        fullWidth
+                        variant="outlined"
+                        label="Edit Code"
+                    />
+                )}
+            </Paper>
         </Container>
     );
 };
