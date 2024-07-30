@@ -16,51 +16,58 @@ const LobbyPage = () => {
   }, []);
 
   return (
-    <Box
-      sx={{
-        display: 'flex',
-        flexDirection: 'column',
-        alignItems: 'center',
-        justifyContent: 'center',
-        minHeight: '100vh',
-        padding: 2,
-        backgroundColor: 'white'
-      }}
-    >
-      <Typography variant="h3" component="h1" gutterBottom>
+    <div style={{
+      display: 'flex',
+      flexDirection: 'column',
+      alignItems: 'center',
+      justifyContent: 'center',
+      minHeight: '100vh',
+      padding: '16px',
+      backgroundColor: 'white',
+    }}>
+      <Typography variant="h5" component="h1" style={{ marginBottom: '16px' }}>
         Choose a Code Block
       </Typography>
-      <Box
-        sx={{
-          display: 'flex',
-          flexWrap: 'wrap',
-          justifyContent: 'center',
-          gap: 2,
-          width: '100%',
-          maxWidth: '1200px',
-        }}
-      >
+      <div style={{
+        display: 'flex',
+        flexWrap: 'wrap',
+        justifyContent: 'center',
+        gap: '16px',
+        width: '100%',
+        maxWidth: '1200px',
+      }}>
         {codeBlocks.map((codeBlock) => (
-          <Card key={codeBlock.id} sx={{ width: 400, margin: '20px' }}>
-            <Typography level="title-lg" sx={{ padding: 2 }}>
+          <Card key={codeBlock.id} style={{
+            width: '100%',
+            maxWidth: '400px',
+            margin: '20px',
+            boxSizing: 'border-box'
+          }}>
+            <Typography variant="h6" component="h2" style={{
+              display: 'flex',
+              justifyContent: 'center',
+              padding: '16px'
+            }}>
               {codeBlock.id}. {codeBlock.title}
             </Typography>
-            <AspectRatio minHeight="120px" maxHeight="200px" sx={{ padding: 2 }}>
-              <Box
-                sx={{
-                  maxHeight: '150px',
-                  overflow: 'auto',
-                  padding: 1,
-                  backgroundColor: 'white',
-                  borderRadius: 1,
-                }}
-              >
+            <AspectRatio minHeight="120px" maxHeight="250px" style={{ padding: '16px' }}>
+              <div style={{
+                maxHeight: '150px',
+                overflow: 'auto',
+                padding: '8px',
+                backgroundColor: 'darkgray',
+                borderRadius: '8px',
+              }}>
                 <pre>
                   <code>{codeBlock.code}</code>
                 </pre>
-              </Box>
+              </div>
             </AspectRatio>
-            <CardContent orientation="horizontal" sx={{ display: 'flex', justifyContent: 'center', padding: 2 }}>
+            <CardContent orientation="horizontal" style={{
+              display: 'flex',
+              justifyContent: 'center',
+              padding: '16px'
+            }}>
               <Button
                 component={Link}
                 to={`/codeblock/${codeBlock.id}`}
@@ -68,15 +75,15 @@ const LobbyPage = () => {
                 size="md"
                 color="primary"
                 aria-label={`Explore ${codeBlock.title}`}
-                sx={{ fontWeight: 600 }}
+                style={{ fontWeight: 600 }}
               >
-                Explore
+                Go to script
               </Button>
             </CardContent>
           </Card>
         ))}
-      </Box>
-    </Box>
+      </div>
+    </div>
   );
 };
 
