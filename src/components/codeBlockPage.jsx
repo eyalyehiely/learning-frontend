@@ -21,7 +21,7 @@ const CodeBlockPage = () => {
     }, [id]);
 
     useEffect(() => {
-        const newSocket = createSocket(`/codeblock/${id}/`);
+        const newSocket = createSocket(`/ws/codeblock/${id}/`);
         setSocket(newSocket);
 
         newSocket.onmessage = (event) => {
