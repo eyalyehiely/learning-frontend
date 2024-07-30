@@ -6,18 +6,24 @@ import Editor from '@monaco-editor/react';
 import createSocket from '../functions/socketConfig';
 import fetchCurrentCodeBlock from '../functions/codeBlocks/fetchCurrentCodeBlock';
 import checkCode from '../functions/codeBlocks/checkCode';
+import editCodeBlock from '../functions/codeBlocks/editCodeBlock';
 import swal from 'sweetalert';
 
 const CodeBlockPage = () => {
     const { id } = useParams();
     const [codeBlock, setCodeBlock] = useState({});
     const [code, setCode] = useState('');
+    const [originalCode, setOriginalCode] = useState('');
     const [role, setRole] = useState('');
     const [socket, setSocket] = useState(null);
     const [isCorrect, setIsCorrect] = useState(false);
 
     useEffect(() => {
-        fetchCurrentCodeBlock(id, setCodeBlock, setCode);
+        fetchCurrentCodeBlock(id, (block) => {
+            setCodeBlock(block);
+            setCode(block.code);
+            setOriginalCode(block.code);
+        });
     }, [id]);
 
     useEffect(() => {
@@ -28,7 +34,6 @@ const CodeBlockPage = () => {
             const data = JSON.parse(event.data);
             if (data.type === 'code_update') {
                 setCode(data.code);
-                setIsCorrect(data.is_correct);
             } else if (data.type === 'role') {
                 setRole(data.role);
             }
@@ -42,7 +47,7 @@ const CodeBlockPage = () => {
     useEffect(() => {
         if (isCorrect) {
             swal({
-                title: 'Good Job',
+                title: '😊',
                 icon: 'success',
                 timer: 2000,
                 button: false
@@ -55,39 +60,45 @@ const CodeBlockPage = () => {
         if (socket && socket.readyState === WebSocket.OPEN) {
             socket.send(JSON.stringify({ type: 'codeChange', code: newValue }));
         }
+
+        // Send code update to backend
+        editCodeBlock(id, newValue);
     };
 
+    
+
+
+
+
     const handleCheckCode = () => {
-        checkCode(id, code, setIsCorrect)
-            .catch((error) => {
-                console.error('Error checking code:', error);
-                swal({
-                    title: 'Error',
-                    text: 'An error occurred while checking the code.',
-                    icon: 'error',
-                    button: true
-                });
-            });
+        checkCode(id, code, setIsCorrect);
+    };
+
+    const handleResetCode = () => {
+        setCode(originalCode);
     };
 
     return (
-        <Container style={{ height: '100vh', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
-            <Button className='btn btn-primary' href = '/lobbyPage'>
+        <Container style={{ height: '100vh', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', padding: '0 16px' }}>
+            <Button className='btn btn-primary' href='/lobbyPage'>
                 Back
             </Button>
-            <Typography variant="h4" gutterBottom>
+            <Typography variant="h4" gutterBottom style={{ textAlign: 'center', marginTop: '16px' }}>
                 {codeBlock.id}. {codeBlock.title}
-                <h6>{codeBlock.instructions}</h6>
+                <Typography variant="subtitle1">{codeBlock.instructions}</Typography>
             </Typography>
             <Paper style={{ flexGrow: 1, marginTop: '16px', padding: '16px', overflow: 'auto', width: '100%', maxWidth: '800px' }}>
                 <Editor
-                    height="400px"
+                    height="50vh"
                     defaultLanguage="python"
                     value={code}
                     onChange={handleCodeChange}
                     options={{ theme: 'vs-dark', readOnly: role === 'mentor' }}
                 />
-                <Button className="btn btn-primary" onClick={handleCheckCode} style={{ marginTop: '16px' }}>Submit</Button>
+                <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: '16px' }}>
+                    <Button className="btn btn-primary" onClick={handleCheckCode}>Submit</Button>
+                    <Button className="btn btn-secondary" onClick={handleResetCode}>Reset</Button>
+                </div>
                 <div style={{ fontSize: '3em', textAlign: 'center', marginTop: '16px' }}>
                     {/* {isCorrect ? '😊' : '😭'} */}
                 </div>
