@@ -1,7 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import getCodeBlocks from '../functions/codeBlocks/fetchAllCodeBlocks';
-import 'bootstrap/dist/css/bootstrap.min.css';
+import AspectRatio from '@mui/joy/AspectRatio';
+import Button from '@mui/joy/Button';
+import Card from '@mui/joy/Card';
+import CardContent from '@mui/joy/CardContent';
+import Typography from '@mui/joy/Typography';
+import Box from '@mui/joy/Box';
 
 const LobbyPage = () => {
   const [codeBlocks, setCodeBlocks] = useState([]);
@@ -11,26 +16,67 @@ const LobbyPage = () => {
   }, []);
 
   return (
-    <div className="container mt-4">
-      <h1 className="text-center mb-4">Choose a Code Block</h1>
-      <div className="row">
-        {codeBlocks.map((block) => (
-          <div key={block.id} className="col-md-4 mb-4">
-            <div className="card">
-              <div className="card-header">
-                <h5 className="card-title">{block.title}</h5>
-              </div>
-              <div className="card-body">
-                <p className="card-text">{block.code || 'No description available'}</p>
-              </div>
-              <div className="card-footer">
-                <Link to={`/codeblock/${block.id}`} className="btn btn-primary">View Details</Link>
-              </div>
-            </div>
-          </div>
+    <Box
+      sx={{
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+        justifyContent: 'center',
+        minHeight: '100vh',
+        padding: 2,
+        backgroundColor: 'white'
+      }}
+    >
+      <Typography variant="h3" component="h1" gutterBottom>
+        Choose a Code Block
+      </Typography>
+      <Box
+        sx={{
+          display: 'flex',
+          flexWrap: 'wrap',
+          justifyContent: 'center',
+          gap: 2,
+          width: '100%',
+          maxWidth: '1200px',
+        }}
+      >
+        {codeBlocks.map((codeBlock) => (
+          <Card key={codeBlock.id} sx={{ width: 400, margin: '20px' }}>
+            <Typography level="title-lg" sx={{ padding: 2 }}>
+              {codeBlock.id}. {codeBlock.title}
+            </Typography>
+            <AspectRatio minHeight="120px" maxHeight="200px" sx={{ padding: 2 }}>
+              <Box
+                sx={{
+                  maxHeight: '150px',
+                  overflow: 'auto',
+                  padding: 1,
+                  backgroundColor: 'white',
+                  borderRadius: 1,
+                }}
+              >
+                <pre>
+                  <code>{codeBlock.code}</code>
+                </pre>
+              </Box>
+            </AspectRatio>
+            <CardContent orientation="horizontal" sx={{ display: 'flex', justifyContent: 'center', padding: 2 }}>
+              <Button
+                component={Link}
+                to={`/codeblock/${codeBlock.id}`}
+                variant="solid"
+                size="md"
+                color="primary"
+                aria-label={`Explore ${codeBlock.title}`}
+                sx={{ fontWeight: 600 }}
+              >
+                Explore
+              </Button>
+            </CardContent>
+          </Card>
         ))}
-      </div>
-    </div>
+      </Box>
+    </Box>
   );
 };
 
