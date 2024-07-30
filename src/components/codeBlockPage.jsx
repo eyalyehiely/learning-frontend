@@ -80,7 +80,7 @@ const CodeBlockPage = () => {
 
     return (
         <Container style={{ height: '100vh', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', padding: '0 16px' }}>
-            <Button className='btn btn-primary' href='/lobbyPage'>
+            <Button className='btn btn-primary' href='/'>
                 Back
             </Button>
             <Typography variant="h4" gutterBottom style={{ textAlign: 'center', marginTop: '16px' }}>
