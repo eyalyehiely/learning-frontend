@@ -8,16 +8,18 @@ import CardContent from '@mui/joy/CardContent';
 import Typography from '@mui/joy/Typography';
 import { v4 as uuidv4 } from 'uuid';
 import Cookies from 'js-cookie';
+import fetchClientUuidtoServer from "../functions/fetchClientUuidtoServer";
 
 const LobbyPage = () => {
     const [codeBlocks, setCodeBlocks] = useState([]);
 
     useEffect(() => {
-        const clientUUID = Cookies.get('clientUUID');
+        let clientUUID = Cookies.get('clientUUID');
         if (!clientUUID) {
-            const newUUID = uuidv4();
-            Cookies.set('clientUUID', newUUID, { expires: 365 });
+            clientUUID = uuidv4();
+            Cookies.set('clientUUID', clientUUID, { expires: 365 });
         }
+        fetchClientUuidtoServer()
 
         getCodeBlocks(setCodeBlocks);
     }, []);
@@ -65,9 +67,9 @@ const LobbyPage = () => {
                                 backgroundColor: 'darkgray',
                                 borderRadius: '8px',
                             }}>
-                <pre>
-                  <code>{codeBlock.code}</code>
-                </pre>
+                                <pre>
+                                    <code>{codeBlock.code}</code>
+                                </pre>
                             </div>
                         </AspectRatio>
                         <CardContent orientation="horizontal" style={{
@@ -77,7 +79,7 @@ const LobbyPage = () => {
                         }}>
                             <Button
                                 component={Link}
-                                to={`/codeblock/${codeBlock.id}`}
+                                to={`/codeblock/${codeBlock.id}/`}
                                 variant="solid"
                                 size="md"
                                 color="primary"
