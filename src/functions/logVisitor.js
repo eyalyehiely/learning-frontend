@@ -13,7 +13,7 @@ export default function logVisitor(url) {
             const role = response.data.role;
             Cookies.set('role', role, { expires: 365 });
             const clientRole = Cookies.get('role')
-            console.log(`Client UUID: ${clientUUID} is assigned the role of ${role}`);
+            console.log(`Client UUID: ${clientUUID} is assigned the role of ${clientRole}`);
         } else {
             console.error('Error: Unexpected response status', response.status);
         }
