@@ -1,17 +1,10 @@
 import axios from '../config/axiosConfig';
 
 
-/**
- * Submits a code block submission to the server.
- * @param {number} codeBlockId - The ID of the code block.
- * @param {string} userId - The ID of the user.
- * @param {Object} submissionData - The submission data to be sent.
- */
-export default function fetchSubmissionToCreate(codeBlockId, userId, submissionData) {
+export default function fetchSubmissionToCreate(codeBlockId, userId) {
     axios.post('/codeblock/submission/', {
         clientUUID: userId,
         code_block_id: codeBlockId,
-        ...submissionData
     })
     .then(response => {
         if (response.status === 201) {
