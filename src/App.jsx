@@ -2,7 +2,7 @@ import React from 'react';
 import { Routes, Route } from 'react-router-dom';
 
 // Import pages
-import CodeBlockPage from './components/CodeBlockPage'
+import CodeBlockPage from '/src/components/CodeBlockPage.jsx';
 import LobbyPage from './components/LobbyPage';
 
 function App() {
