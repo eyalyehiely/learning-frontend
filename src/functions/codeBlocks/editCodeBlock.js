@@ -1,4 +1,4 @@
-import axios from '../axiosConfig';
+import axios from '../config/axiosConfig';
 
 export default function editCodeBlock(id, code) {
     axios.put(`/codeblock/${id}/edit/`, { code })

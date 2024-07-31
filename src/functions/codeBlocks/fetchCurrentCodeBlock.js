@@ -1,4 +1,4 @@
-import axios from '../axiosConfig';
+import axios from '../config/axiosConfig';
 
 export default function fetchCurrentCodeBlock(id, setCodeBlock, setCode) {
     axios.get(`/codeblock/${id}/`)

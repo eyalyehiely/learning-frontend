@@ -1,4 +1,4 @@
-import axios from '../axiosConfig';
+import axios from '../config/axiosConfig';
 
 export default function checkCode(id, code, setIsCorrect) {
     axios.post(`/codeblock/${id}/check/`, { code })

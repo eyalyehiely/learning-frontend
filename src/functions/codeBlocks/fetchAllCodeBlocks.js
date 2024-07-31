@@ -1,4 +1,4 @@
-import axios from '../axiosConfig';
+import axios from '../config/axiosConfig';
 
 export default function getCodeBlocks(setCodeBlocks) {
     axios.get('/codeblocks/')
