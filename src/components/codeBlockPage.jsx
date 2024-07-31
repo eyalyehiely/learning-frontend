@@ -3,7 +3,7 @@ import { Container, Typography, Paper } from '@mui/material';
 import Button from 'react-bootstrap/Button';
 import { useParams} from 'react-router-dom';
 import Editor from '@monaco-editor/react';
-import createSocket from '../functions/socketConfig';
+import createSocket from '../functions/config/socketConfig';
 import fetchCurrentCodeBlock from '../functions/codeBlocks/fetchCurrentCodeBlock';
 import checkCode from '../functions/codeBlocks/checkCode';
 import editCodeBlock from '../functions/codeBlocks/editCodeBlock';
