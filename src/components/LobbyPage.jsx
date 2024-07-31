@@ -12,16 +12,19 @@ import fetchClientUuidtoServer from "../functions/fetchClientUuidtoServer";
 
 const LobbyPage = () => {
     const [codeBlocks, setCodeBlocks] = useState([]);
+    const [clientUUID, setClientUUID] = useState('');
 
     useEffect(() => {
-        let clientUUID = Cookies.get('clientUUID');
+        const clientUUID = Cookies.get('clientUUID');
         if (!clientUUID) {
-            clientUUID = uuidv4();
-            Cookies.set('clientUUID', clientUUID, { expires: 365 });
+            const newUUID = uuidv4();
+            Cookies.set('clientUUID', newUUID, { expires: 365 });
         }
-        fetchClientUuidtoServer()
 
-        getCodeBlocks(setCodeBlocks);
+        setClientUUID(Cookies.get('clientUUID'));
+        fetchClientUuidtoServer();  // Send the clientUUID to the server
+
+        getCodeBlocks(setCodeBlocks);  // Fetch the code blocks
     }, []);
 
     return (
