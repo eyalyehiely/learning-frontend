@@ -1,4 +1,4 @@
-const baseURL = import.meta.env.VITE_WEBSOCKET_BASE_URL || 'ws://localhost:8000/ws/';
+const baseURL = import.meta.env.VITE_WEBSOCKET_BASE_URL || 'ws://learning-backend-dev.up.railway.app/ws/';
 
 const createSocket = (path) => {
     const socket = new WebSocket(`${baseURL}${path}`);
