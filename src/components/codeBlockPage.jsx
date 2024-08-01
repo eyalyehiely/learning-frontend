@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import { Container, Typography, Paper } from '@mui/material';
 import Button from 'react-bootstrap/Button';
-import { useParams } from 'react-router-dom';
 import Editor from '@monaco-editor/react';
 import createSocket from '../functions/config/socketConfig';
 import checkCode from '../functions/codeBlocks/checkCode';
@@ -17,12 +16,10 @@ const CodeBlockPage = () => {
     const { id } = useParams();
     const [submissionCodeBlock, setSubmissionCodeBlock] = useState({});
     const [submissionCode, setSubmissionCode] = useState('');
-    const [originalCode, setOriginalCode] = useState('');
     const [role, setRole] = useState('');
     const [socket, setSocket] = useState(null);
     const [isCorrect, setIsCorrect] = useState(false);
     const [isCodeChanging, setIsCodeChanging] = useState(false);
-
 
     useEffect(() => {
         const userId = Cookies.get('clientUUID');
@@ -89,14 +86,12 @@ const CodeBlockPage = () => {
         checkCode(id, submissionCode, setIsCorrect);
     };
 
-    const handleResetCode = () => {
-        setSubmissionCode(originalCode);
-    };
+
 
     return (
         <Container style={{ height: '100vh', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', padding: '0 16px' }}>
             <Typography variant="h4" gutterBottom style={{ textAlign: 'center', marginTop: '16px' }}>
-                {submissionCodeBlock.id}. {submissionCodeBlock.title}
+                {submissionCodeBlock.code_block_id}. {submissionCodeBlock.title}
                 <Typography variant="subtitle1">{submissionCodeBlock.instructions}</Typography>
             </Typography>
             <Paper style={{ height: '80vh', width: '60vw', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', marginLeft: '20%' }}>
@@ -116,7 +111,6 @@ const CodeBlockPage = () => {
                     {role === 'student' && (
                         <>
                             <Button className="btn btn-primary" onClick={handleCheckCode}>Submit</Button>
-                            <Button className="btn btn-secondary" onClick={handleResetCode}>Reset</Button>
                         </>
                     )}
                     <Button variant="btn btn-secondary">
