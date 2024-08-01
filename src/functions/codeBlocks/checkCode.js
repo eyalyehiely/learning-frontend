@@ -1,18 +1,14 @@
 import axios from '../config/axiosConfig';
 import Cookies from 'js-cookie';
 
-
 export default function checkCode(id, code, setIsCorrect) {
     const clientUUID = Cookies.get('clientUUID');
-    axios.post(`/codeblock/${id}/check/`, { code,'user_id':clientUUID })
+    axios.post(`/codeblock/${id}/check/`, { code,clientUUID })
         .then(response => {
-            console.log('fbfbsdb');
             if (response.status === 200 && response.data.success === 'match') {
-                console.log(response.data);
                 setIsCorrect(true);
             } else {
                 console.error('Error: Unexpected response status', response.status);
-                console.log(response.data);
                 setIsCorrect(false);
             }
         })
