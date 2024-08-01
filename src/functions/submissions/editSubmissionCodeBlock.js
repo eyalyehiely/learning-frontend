@@ -4,7 +4,7 @@ import Cookies from 'js-cookie';
 export default function editSubmissionCodeBlock(id, code) {
     const clientUUID = Cookies.get('clientUUID');
     axios.put(`/codeblock/submission/${id}/edit/?user_id=${clientUUID}`, {
-        code,
+        user_code: code,
         code_block: id,
         user_id: clientUUID
     })
