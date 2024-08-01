@@ -2,13 +2,13 @@ import React from 'react';
 import { Routes, Route } from 'react-router-dom';
 
 import LobbyPage from './components/LobbyPage';
-import CodeBlockPage from './components/CodeBlockPage'
+import codeBlockPage from './components/codeBlockPage'
 
 function App() {
   return (
     <Routes>
       <Route path="/" element={<LobbyPage />} />
-      <Route path="/codeblock/:id/" element={<CodeBlockPage />} />
+      <Route path="/codeblock/:id/" element={<codeBlockPage />} />
     </Routes>
   );
 }
