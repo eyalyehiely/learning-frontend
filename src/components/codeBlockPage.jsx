@@ -11,7 +11,7 @@ import fetchSubmissionToCreate from '../functions/submissions/fetchSubmissionToC
 import Cookies from 'js-cookie';
 import logVisitor from '../functions/logVisitor';
 import fetchCurrentSubmission from '../functions/submissions/fetchCurrentSubmission';
-import fetchCodeBlockData from '../functions/codeBlocks/fetchCodeBlockData'
+import fetchCodeBlockData from '../functions/codeBlocks/fetchCodeBlockData';
 
 const CodeBlockPage = () => {
     const { id } = useParams();
@@ -31,7 +31,7 @@ const CodeBlockPage = () => {
     }, [id]);
 
     useEffect(() => {
-        const url = window.location.href;  
+        const url = window.location.href;
         logVisitor(url);
     }, []);
 
@@ -90,23 +90,23 @@ const CodeBlockPage = () => {
     };
 
     return (
-        <Container 
-            style={{ 
-                height: '100vh', 
-                display: 'flex', 
-                flexDirection: 'column', 
-                alignItems: 'center', 
-                justifyContent: 'center', 
-                padding: '0 16px' 
+        <Container
+            style={{
+                height: '100vh',
+                display: 'flex',
+                flexDirection: 'column',
+                alignItems: 'center',
+                justifyContent: 'center',
+                padding: '0 16px'
             }}
         >
-            <Typography 
-                variant="h4" 
-                component="h1" 
-                style={{ 
-                    display: 'flex', 
-                    justifyContent: 'center', 
-                    alignItems: 'center', 
+            <Typography
+                variant="h4"
+                component="h1"
+                style={{
+                    display: 'flex',
+                    justifyContent: 'center',
+                    alignItems: 'center',
                     textAlign: 'center',
                     width: '100%',
                     padding: '16px',
@@ -115,13 +115,13 @@ const CodeBlockPage = () => {
             >
                 {originalCode.id}. {originalCode.title}
             </Typography>
-            <Typography 
-                variant="subtitle1" 
-                style={{ 
-                    display: 'flex', 
-                    flexDirection: 'column', 
-                    alignItems: 'center', 
-                    justifyContent: 'center', 
+            <Typography
+                variant="subtitle1"
+                style={{
+                    display: 'flex',
+                    flexDirection: 'column',
+                    alignItems: 'center',
+                    justifyContent: 'center',
                     textAlign: 'center',
                     width: '100%',
                     padding: '8px'
@@ -129,16 +129,15 @@ const CodeBlockPage = () => {
             >
                 {originalCode.instructions}
             </Typography>
-            <Paper 
-                style={{ 
-                    height: '80vh', 
-                    width: '60vw', 
-                    display: 'flex', 
-                    flexDirection: 'column', 
-                    marginLeft:'30%',
-                    alignItems: 'center', 
-                    justifyContent: 'center', 
-                    padding: '16px' 
+            <Paper
+                style={{
+                    height: '80vh',
+                    width: '60vw',
+                    display: 'flex',
+                    flexDirection: 'column',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    padding: '16px'
                 }}
             >
                 <Editor
