@@ -11,12 +11,14 @@ import fetchSubmissionToCreate from '../functions/submissions/fetchSubmissionToC
 import Cookies from 'js-cookie';
 import logVisitor from '../functions/logVisitor';
 import fetchCurrentSubmission from '../functions/submissions/fetchCurrentSubmission';
+import fetchCodeBlockData from '../functions/codeBlocks/fetchCodeBlockData'
 
 const CodeBlockPage = () => {
     const { id } = useParams();
     const [submissionCodeBlock, setSubmissionCodeBlock] = useState({});
     const [submissionCode, setSubmissionCode] = useState('');
     const [role, setRole] = useState('');
+    const [originalCode, setOriginalCode] = useState('');
     const [socket, setSocket] = useState(null);
     const [isCorrect, setIsCorrect] = useState(false);
     const [isCodeChanging, setIsCodeChanging] = useState(false);
@@ -25,6 +27,7 @@ const CodeBlockPage = () => {
         const userId = Cookies.get('clientUUID');
         fetchSubmissionToCreate(id, userId);
         fetchCurrentSubmission(id, setSubmissionCodeBlock, setSubmissionCode);
+        fetchCodeBlockData(id, setOriginalCode);
     }, [id]);
 
     useEffect(() => {
@@ -40,7 +43,7 @@ const CodeBlockPage = () => {
             const data = JSON.parse(event.data);
             if (data.type === 'code_update') {
                 setSubmissionCode(data.code);
-            } else if (data.type === 'role') {
+            } else if (data.type === 'role_update') {
                 setRole(data.role);
             } else if (data.type === 'code_changing') {
                 setIsCodeChanging(true);
@@ -87,12 +90,57 @@ const CodeBlockPage = () => {
     };
 
     return (
-        <Container style={{ height: '100vh', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', padding: '0 16px' }}>
-            <Typography variant="h4" gutterBottom style={{ textAlign: 'center', marginTop: '16px' }}>
-                {submissionCodeBlock.code_block_id}. {submissionCodeBlock.title}
-                <Typography variant="subtitle1">{submissionCodeBlock.instructions}</Typography>
+        <Container 
+            style={{ 
+                height: '100vh', 
+                display: 'flex', 
+                flexDirection: 'column', 
+                alignItems: 'center', 
+                justifyContent: 'center', 
+                padding: '0 16px' 
+            }}
+        >
+            <Typography 
+                variant="h4" 
+                component="h1" 
+                style={{ 
+                    display: 'flex', 
+                    justifyContent: 'center', 
+                    alignItems: 'center', 
+                    textAlign: 'center',
+                    width: '100%',
+                    padding: '16px',
+                    boxSizing: 'border-box'
+                }}
+            >
+                {originalCode.id}. {originalCode.title}
             </Typography>
-            <Paper style={{ height: '80vh', width: '60vw', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', marginLeft: '20%' }}>
+            <Typography 
+                variant="subtitle1" 
+                style={{ 
+                    display: 'flex', 
+                    flexDirection: 'column', 
+                    alignItems: 'center', 
+                    justifyContent: 'center', 
+                    textAlign: 'center',
+                    width: '100%',
+                    padding: '8px'
+                }}
+            >
+                {originalCode.instructions}
+            </Typography>
+            <Paper 
+                style={{ 
+                    height: '80vh', 
+                    width: '60vw', 
+                    display: 'flex', 
+                    flexDirection: 'column', 
+                    marginLeft:'30%',
+                    alignItems: 'center', 
+                    justifyContent: 'center', 
+                    padding: '16px' 
+                }}
+            >
                 <Editor
                     height="60vh"
                     defaultLanguage="javascript"
