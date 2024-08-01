@@ -5,7 +5,7 @@ const createSocket = (path) => {
     const protocol = window.location.protocol === 'https:' ? 'wss:' : 'ws:';
     
     // Replace the protocol in the base URL with the correct one
-    const socketURL = baseURL.replace(/^ws:/, protocol).replace(/^wss:/, protocol);
+    const socketURL = baseURL.replace(/^ws:/, protocol).replace(/^ws:/, protocol);
 
     const socket = new WebSocket(`${socketURL}${path}`);
 
