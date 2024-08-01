@@ -1,8 +1,16 @@
 const createSocket = (path) => {
     const protocol = window.location.protocol === 'https:' ? 'wss:' : 'ws:';
-    const baseURL = import.meta.env.VITE_WEBSOCKET_BASE_URL.replace(/^ws/, protocol);
+    let baseURL = import.meta.env.VITE_WEBSOCKET_BASE_URL.replace(/^ws/, protocol);
+
     // Ensure no double slashes in the URL
-    const url = `${baseURL}${path}`.replace(/([^:]\/)\/+/g, "$1");
+    if (baseURL.endsWith('/')) {
+        baseURL = baseURL.slice(0, -1);
+    }
+    if (!path.startsWith('/')) {
+        path = `/${path}`;
+    }
+
+    const url = `${baseURL}${path}`;
     const socket = new WebSocket(url);
 
     socket.onopen = () => {

@@ -142,7 +142,7 @@ const CodeBlockPage = () => {
             >
                 <Editor
                     height="60vh"
-                    defaultLanguage="javascript"
+                    defaultLanguage="python"
                     value={submissionCode}
                     onChange={handleCodeChange}
                     options={{ theme: 'vs-dark', readOnly: role !== 'student' }}
