@@ -1,7 +1,10 @@
 import axios from '../config/axiosConfig';
+import Cookies from 'js-cookie';
+
 
 export default function checkCode(id, code, setIsCorrect) {
-    axios.post(`/codeblock/${id}/check/`, { code })
+    const clientUUID = Cookies.get('clientUUID');
+    axios.post(`/codeblock/${id}/check/`, { code,'user_id':clientUUID })
         .then(response => {
             if (response.status === 200 && response.data.success === 'match') {
                 console.log(response.data);
