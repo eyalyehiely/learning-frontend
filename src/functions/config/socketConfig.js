@@ -1,7 +1,6 @@
-const baseURL = import.meta.env.VITE_WEBSOCKET_BASE_URL || 'ws://localhost:8000/ws/';
-
 const createSocket = (path) => {
-
+    const protocol = window.location.protocol === 'https:' ? 'wss:' : 'ws:';
+    const baseURL = import.meta.env.VITE_WEBSOCKET_BASE_URL.replace(/^ws/, protocol);
     const socket = new WebSocket(`${baseURL}${path}`);
 
     socket.onopen = () => {
@@ -19,4 +18,4 @@ const createSocket = (path) => {
     return socket;
 };
 
-export default createSocket;
+export default createSocket;f
