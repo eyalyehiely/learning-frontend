@@ -15,14 +15,15 @@ const LobbyPage = () => {
     const [clientUUID, setClientUUID] = useState('');
 
     useEffect(() => {
-        const clientUUID = Cookies.get('clientUUID');
+        // Fetch or set the clientUUID cookie
+        let clientUUID = Cookies.get('clientUUID');
         if (!clientUUID) {
-            const newUUID = uuidv4();
-            Cookies.set('clientUUID', newUUID, { expires: 365 });
+            clientUUID = uuidv4();
+            Cookies.set('clientUUID', clientUUID, { expires: 365 });
         }
 
-        setClientUUID(Cookies.get('clientUUID'));
-        fetchClientUuidtoServer();  // Send the clientUUID to the server
+        setClientUUID(clientUUID);
+        fetchClientUuidtoServer(clientUUID);  // Send the clientUUID to the server
 
         getCodeBlocks(setCodeBlocks);  // Fetch the code blocks
     }, []);
@@ -37,8 +38,9 @@ const LobbyPage = () => {
             padding: '16px',
             backgroundColor: 'white',
         }}>
+            <h1 style={{display: 'flex',marginLeft:'10%'}}>Hi, welcome to Moveo learning platform</h1>
             <Typography variant="h5" component="h1" style={{ marginBottom: '16px' }}>
-                Choose a Code Block
+                Choose a Code Block !
             </Typography>
             <div style={{
                 display: 'flex',
@@ -46,14 +48,15 @@ const LobbyPage = () => {
                 justifyContent: 'center',
                 gap: '16px',
                 width: '100%',
-                maxWidth: '1200px',
+                maxWidth: '100%',
             }}>
                 {codeBlocks.map((codeBlock) => (
                     <Card key={codeBlock.id} style={{
-                        width: '100%',
-                        maxWidth: '400px',
-                        margin: '20px',
-                        boxSizing: 'border-box'
+                        flex: '1 1 auto',
+                        boxSizing: 'border-box',
+                        display: 'flex',
+                        flexDirection: 'column',
+                        justifyContent: 'space-between',
                     }}>
                         <Typography variant="h6" component="h2" style={{
                             display: 'flex',
@@ -64,7 +67,8 @@ const LobbyPage = () => {
                         </Typography>
                         <AspectRatio minHeight="120px" maxHeight="250px" style={{ padding: '16px' }}>
                             <div style={{
-                                maxHeight: '150px',
+                                maxHeight: '80%',
+                                maxWidth: '100%',
                                 overflow: 'auto',
                                 padding: '8px',
                                 backgroundColor: 'darkgray',
