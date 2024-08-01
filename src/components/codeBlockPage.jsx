@@ -28,41 +28,30 @@ const CodeBlockPage = () => {
         fetchSubmissionToCreate(id, userId);
         fetchCurrentSubmission(id, setSubmissionCodeBlock, setSubmissionCode);
         fetchCodeBlockData(id, setOriginalCode);
-
-        const url = window.location.href;
-        logVisitor(url).then(role => {
-            if (role) {
-                Cookies.set('role', role);  // Set the role as a session cookie
-                setRole(role);
-                establishSocketConnection(id, role);
-            }
-        });
     }, [id]);
 
-    const establishSocketConnection = (codeblockId, userRole) => {
-        const newSocket = createSocket(`/ws/codeblock/${codeblockId}/`);
+    useEffect(() => {
+        const url = window.location.href;
+        logVisitor(url);
+    }, []);
+
+    useEffect(() => {
+        const newSocket = createSocket(`/ws/codeblock/${id}/`);
         setSocket(newSocket);
 
         newSocket.onmessage = (event) => {
             const data = JSON.parse(event.data);
             if (data.type === 'code_update') {
                 setSubmissionCode(data.code);
-            } else if (data.type === 'role_update') {
+            } else if (data.type === 'role_assignment') {
                 setRole(data.role);
-            } else if (data.type === 'code_changing') {
-                setIsCodeChanging(true);
-                setTimeout(() => setIsCodeChanging(false), 1000); // Reset the flag after 1 second
             }
         };
 
-        newSocket.onclose = () => {
-            console.log('Disconnected from WebSocket server');
+        return () => {
+            newSocket.close();
         };
-
-        newSocket.onerror = (error) => {
-            console.error('WebSocket error', error);
-        };
-    };
+    }, [id]);
 
     useEffect(() => {
         if (isCorrect) {
@@ -80,7 +69,6 @@ const CodeBlockPage = () => {
             setSubmissionCode(newValue);
             if (socket && socket.readyState === WebSocket.OPEN) {
                 socket.send(JSON.stringify({ type: 'codeChange', code: newValue }));
-                socket.send(JSON.stringify({ type: 'code_changing' }));
             }
 
             // Send code update to backend

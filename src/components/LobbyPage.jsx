@@ -38,9 +38,9 @@ const LobbyPage = () => {
             padding: '16px',
             backgroundColor: 'white',
         }}>
-            <h1 style={{display: 'flex',marginLeft:'10%'}}>Hi, welcome to Moveo learning platform</h1>
-            <Typography variant="h5" component="h1" style={{ marginBottom: '16px' }}>
-                Choose a Code Block !
+            <h1 style={{ textAlign: 'center' }}>Hi, welcome to Moveo learning platform</h1>
+            <Typography variant="h5" component="h1" style={{ marginBottom: '16px', textAlign: 'center' }}>
+                Choose a Code Block!
             </Typography>
             <div style={{
                 display: 'flex',
@@ -48,15 +48,16 @@ const LobbyPage = () => {
                 justifyContent: 'center',
                 gap: '16px',
                 width: '100%',
-                maxWidth: '100%',
+                maxWidth: '1200px',
             }}>
                 {codeBlocks.map((codeBlock) => (
                     <Card key={codeBlock.id} style={{
-                        flex: '1 1 auto',
+                        flex: '1 1 300px',
                         boxSizing: 'border-box',
                         display: 'flex',
                         flexDirection: 'column',
                         justifyContent: 'space-between',
+                        margin: '10px',
                     }}>
                         <Typography variant="h6" component="h2" style={{
                             display: 'flex',
