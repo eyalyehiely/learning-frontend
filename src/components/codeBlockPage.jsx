@@ -12,7 +12,7 @@ import Cookies from 'js-cookie';
 import logVisitor from '../functions/logVisitor';
 import fetchCurrentSubmission from '../functions/submissions/fetchCurrentSubmission';
 
-const codeBlockPage = () => {
+const CodeBlockPage = () => {
     const { id } = useParams();
     const [submissionCodeBlock, setSubmissionCodeBlock] = useState({});
     const [submissionCode, setSubmissionCode] = useState('');
@@ -86,8 +86,6 @@ const codeBlockPage = () => {
         checkCode(id, submissionCode, setIsCorrect);
     };
 
-
-
     return (
         <Container style={{ height: '100vh', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', padding: '0 16px' }}>
             <Typography variant="h4" gutterBottom style={{ textAlign: 'center', marginTop: '16px' }}>
@@ -123,4 +121,4 @@ const codeBlockPage = () => {
     );
 };
 
-export default codeBlockPage;
+export default CodeBlockPage;
