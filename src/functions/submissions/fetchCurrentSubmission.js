@@ -14,7 +14,7 @@ export default function fetchCurrentSubmission(id, setSubmissionCodeBlock, setSu
         .then(response => {
             if (response.status === 200 || response.status === 201) {
                 setSubmissionCodeBlock(response.data);
-                setSubmissionCode(response.data.code); // Ensure this matches the response structure
+                setSubmissionCode(response.data.user_code);
             } else {
                 console.error('Error: Unexpected response status', response.status);
             }
