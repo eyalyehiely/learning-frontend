@@ -97,7 +97,7 @@ const CodeBlockPage = () => {
             <Paper style={{ height: '80vh', width: '60vw', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', marginLeft: '20%' }}>
                 <Editor
                     height="60vh"
-                    defaultLanguage="python"
+                    defaultLanguage="javascript"
                     value={submissionCode}
                     onChange={handleCodeChange}
                     options={{ theme: 'vs-dark', readOnly: role !== 'student' }}
