@@ -6,6 +6,7 @@ export default function checkCode(id, code, setIsCorrect) {
     const clientUUID = Cookies.get('clientUUID');
     axios.post(`/codeblock/${id}/check/`, { code,'user_id':clientUUID })
         .then(response => {
+            console.log('fbfbsdb');
             if (response.status === 200 && response.data.success === 'match') {
                 console.log(response.data);
                 setIsCorrect(true);
