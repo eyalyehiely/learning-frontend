@@ -12,7 +12,7 @@ import Cookies from 'js-cookie';
 import logVisitor from '../functions/logVisitor';
 import fetchCurrentSubmission from '../functions/submissions/fetchCurrentSubmission';
 
-const CodeBlockPage = () => {
+const codeBlockPage = () => {
     const { id } = useParams();
     const [submissionCodeBlock, setSubmissionCodeBlock] = useState({});
     const [submissionCode, setSubmissionCode] = useState('');
@@ -123,4 +123,4 @@ const CodeBlockPage = () => {
     );
 };
 
-export default CodeBlockPage;
+export default codeBlockPage;
