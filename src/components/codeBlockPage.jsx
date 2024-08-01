@@ -13,7 +13,7 @@ import logVisitor from '../functions/logVisitor';
 import fetchCurrentSubmission from '../functions/submissions/fetchCurrentSubmission';
 import fetchCodeBlockData from '../functions/codeBlocks/fetchCodeBlockData'
 
-function CodeBlockPage(){
+const CodeBlockPage = () => {
     const { id } = useParams();
     const [submissionCodeBlock, setSubmissionCodeBlock] = useState({});
     const [submissionCode, setSubmissionCode] = useState('');
