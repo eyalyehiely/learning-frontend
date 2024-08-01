@@ -28,15 +28,19 @@ const CodeBlockPage = () => {
         fetchSubmissionToCreate(id, userId);
         fetchCurrentSubmission(id, setSubmissionCodeBlock, setSubmissionCode);
         fetchCodeBlockData(id, setOriginalCode);
+
+        const url = window.location.href;
+        logVisitor(url).then(role => {
+            if (role) {
+                Cookies.set('role', role);  // Set the role as a session cookie
+                setRole(role);
+                establishSocketConnection(id, role);
+            }
+        });
     }, [id]);
 
-    useEffect(() => {
-        const url = window.location.href;
-        logVisitor(url);
-    }, []);
-
-    useEffect(() => {
-        const newSocket = createSocket(`/codeblock/${id}/`);
+    const establishSocketConnection = (codeblockId, userRole) => {
+        const newSocket = createSocket(`/ws/codeblock/${codeblockId}/`);
         setSocket(newSocket);
 
         newSocket.onmessage = (event) => {
@@ -51,10 +55,14 @@ const CodeBlockPage = () => {
             }
         };
 
-        return () => {
-            newSocket.close();
+        newSocket.onclose = () => {
+            console.log('Disconnected from WebSocket server');
         };
-    }, [id]);
+
+        newSocket.onerror = (error) => {
+            console.error('WebSocket error', error);
+        };
+    };
 
     useEffect(() => {
         if (isCorrect) {
@@ -66,11 +74,6 @@ const CodeBlockPage = () => {
             });
         }
     }, [isCorrect]);
-
-    useEffect(() => {
-        const userRole = Cookies.get('role');
-        setRole(userRole);
-    }, []);
 
     const handleCodeChange = (newValue) => {
         if (role === 'student') {

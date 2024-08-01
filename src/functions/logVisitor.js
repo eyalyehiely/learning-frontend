@@ -9,20 +9,23 @@ export default function logVisitor(url) {
         return;
     }
 
-    axios.post('/log_visitor/', {
+    return axios.post('/log_visitor/', {
         clientUUID,
         url
     })
     .then(response => {
         if (response.status === 200) {
             const role = response.data.role;
-            Cookies.set('role', role, { expires: 365 });
+            Cookies.set('role', role);
             console.log(`Client UUID: ${clientUUID} is assigned the role of ${role}`);
+            return role;  
         } else {
             console.error('Error: Unexpected response status', response.status);
+            return null;  
         }
     })
     .catch(error => {
         console.error('Error logging visitor:', error);
+        return null;  
     });
 }
