@@ -2,8 +2,7 @@
 
 ```
 
-learning-frontend-dev.up.railway.app
-=======
+
 https://learning-frontend-dev.up.railway.app
 
 ```
