@@ -377,7 +377,7 @@ const CodeBlockPage = () => {
     }, []);
 
     useEffect(() => {
-        const newSocket = createSocket(`/ws/codeblock/${id}/`);
+        const newSocket = createSocket(`/codeblock/${id}/`);
         setSocket(newSocket);
 
         newSocket.onmessage = (event) => {
