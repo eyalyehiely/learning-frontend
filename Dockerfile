@@ -7,4 +7,4 @@ COPY . .
 EXPOSE 3000
 RUN npm run build
 USER node
-CMD ["nginx", "-g", "daemon off;"]
+CMD ["npm", "start"]
